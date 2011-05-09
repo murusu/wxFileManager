@@ -253,6 +253,15 @@ void *FileCopyMoveThread::Entry()
 
     size_t total_num = listctrl->GetSelectedItemCount();
 
+    if(total_num < 1)
+    {
+        wxFileProcessEvent event(wxEVT_FILEPROCESS_SUCCESS);
+        action_info->m_dialog->AddPendingEvent(event);
+
+        wxMessageBox(_("No item selected!"), _("Error"), wxOK | wxICON_ERROR );
+        return NULL;
+    }
+
     wxString sourefile_name;
     wxString targetfile_name;
     size_t contin_flag;

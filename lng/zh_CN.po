@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxFilemanager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-09 01:47+0800\n"
+"POT-Creation-Date: 2011-05-09 23:24+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Murusu <murusu0.0@gmail.com>\n"
 "Language-Team: \n"
@@ -78,6 +78,7 @@ msgid "Target path invaild!!"
 msgstr "目标路径无效"
 
 #: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:336
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:261
 msgid "Error"
 msgstr "错误"
 
@@ -176,20 +177,24 @@ msgstr "维持目录结构"
 msgid "Run"
 msgstr "运行"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:290
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:261
+msgid "No item selected!"
+msgstr "已选文件为空！"
+
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
 msgid "Replace "
 msgstr "将"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:290
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:382
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:391
 msgid "Empty File"
 msgstr "空文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:290
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
 msgid " with "
 msgstr " 替换为 "
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:292
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:301
 msgid "Confirm"
 msgstr "确认"
 
