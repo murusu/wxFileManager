@@ -101,6 +101,7 @@ void wxFileManagerUI::OnFileProcessUpdate( wxFileProcessEvent& event )
     m_listCtrl_filelist->Refresh();
 
     m_statusBar->SetStatusText(wxString::Format(_("Total %d Files"), wxGetApp().GetFileManager()->getFileNumber()), 2);
+    m_statusBar->SetStatusText(_("Searching files ......"), 1);
 }
 
 void wxFileManagerUI::ExitProgram(wxCommandEvent& WXUNUSED(event))

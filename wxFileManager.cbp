@@ -44,6 +44,8 @@
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
 					<Add library="libwxmsw28u.a" />
 					<Add library="libwxpng.a" />
 					<Add library="libwxjpeg.a" />
