@@ -240,6 +240,7 @@ CopyMoveDialog_Base::CopyMoveDialog_Base( wxWindow* parent, wxWindowID id, const
 	bSizer13 = new wxBoxSizer( wxVERTICAL );
 	
 	m_gauge = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( -1,10 ), wxGA_HORIZONTAL|wxGA_SMOOTH );
+	m_gauge->SetValue( 0 ); 
 	bSizer13->Add( m_gauge, 0, wxALL|wxEXPAND, 5 );
 	
 	bSizer9->Add( bSizer13, 0, wxEXPAND, 5 );
