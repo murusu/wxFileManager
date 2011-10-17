@@ -56,6 +56,8 @@ class SearchDialog: public SearchDialog_Base
 		void ChangeFileNameStatus( wxCommandEvent& event );
 		void ChangeModifyDateStatus( wxCommandEvent& event );
 		void ChangeModifyDateType( wxCommandEvent& event );
+		void ChangeCreateDateStatus( wxCommandEvent& event );
+		void ChangeCreateDateType( wxCommandEvent& event );
 
 		void DoSearch( wxCommandEvent& event );
 		void CloseSearchDialog( wxCommandEvent& event );

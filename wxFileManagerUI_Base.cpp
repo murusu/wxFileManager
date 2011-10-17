@@ -44,6 +44,10 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_menuItem_move = new wxMenuItem( m_menu4, wxID_Menu_Move, wxString( _("Move") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu4->Append( m_menuItem_move );
 	
+	wxMenuItem* m_menuItem_delete;
+	m_menuItem_delete = new wxMenuItem( m_menu4, wxID_Menu_Delete, wxString( _("Delete") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_delete );
+	
 	m_menubar1->Append( m_menu4, _("Commands") ); 
 	
 	this->SetMenuBar( m_menubar1 );
@@ -67,6 +71,7 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	this->Connect( wxID_Menu_Clear, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Connect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Connect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
+	this->Connect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
 	m_listCtrl_filelist->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -82,6 +87,7 @@ wxFileManagerUI_Base::~wxFileManagerUI_Base()
 	this->Disconnect( wxID_Menu_Clear, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Disconnect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Disconnect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
+	this->Disconnect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
 	m_listCtrl_filelist->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -112,7 +118,7 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_checkBox_filename = new wxCheckBox( this, wxID_ANY, _("File Name"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	m_checkBox_filename = new wxCheckBox( this, wxID_ANY, _("File Name Include"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	bSizer5->Add( m_checkBox_filename, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_textCtrl_filename = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
@@ -128,13 +134,13 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	m_checkBox_modifydate = new wxCheckBox( this, wxID_ANY, _("Modify Date"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	bSizer6->Add( m_checkBox_modifydate, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
-	wxString m_choice_modiftdateChoices[] = { _("Before"), _("After"), _("Between") };
-	int m_choice_modiftdateNChoices = sizeof( m_choice_modiftdateChoices ) / sizeof( wxString );
-	m_choice_modiftdate = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice_modiftdateNChoices, m_choice_modiftdateChoices, 0 );
-	m_choice_modiftdate->SetSelection( 0 );
-	m_choice_modiftdate->Enable( false );
+	wxString m_choice_modifydateChoices[] = { _("Before"), _("After"), _("Between") };
+	int m_choice_modifydateNChoices = sizeof( m_choice_modifydateChoices ) / sizeof( wxString );
+	m_choice_modifydate = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice_modifydateNChoices, m_choice_modifydateChoices, 0 );
+	m_choice_modifydate->SetSelection( 0 );
+	m_choice_modifydate->Enable( false );
 	
-	bSizer6->Add( m_choice_modiftdate, 0, wxALL, 5 );
+	bSizer6->Add( m_choice_modifydate, 0, wxALL, 5 );
 	
 	m_datePicker_md_first = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
 	m_datePicker_md_first->Enable( false );
@@ -147,6 +153,32 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	bSizer6->Add( m_datePicker_md_last, 0, wxALL, 5 );
 	
 	bSizer4->Add( bSizer6, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_checkBox_createdate = new wxCheckBox( this, wxID_ANY, _("Create Date"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	bSizer16->Add( m_checkBox_createdate, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	wxString m_choice_createdateChoices[] = { _("Before"), _("After"), _("Between") };
+	int m_choice_createdateNChoices = sizeof( m_choice_createdateChoices ) / sizeof( wxString );
+	m_choice_createdate = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice_createdateNChoices, m_choice_createdateChoices, 0 );
+	m_choice_createdate->SetSelection( 0 );
+	m_choice_createdate->Enable( false );
+	
+	bSizer16->Add( m_choice_createdate, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_datePicker_cd_first = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	m_datePicker_cd_first->Enable( false );
+	
+	bSizer16->Add( m_datePicker_cd_first, 0, wxALL, 5 );
+	
+	m_datePicker_cd_last = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	m_datePicker_cd_last->Enable( false );
+	
+	bSizer16->Add( m_datePicker_cd_last, 0, wxALL, 5 );
+	
+	bSizer4->Add( bSizer16, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxVERTICAL );
@@ -178,7 +210,9 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	// Connect Events
 	m_checkBox_filename->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeFileNameStatus ), NULL, this );
 	m_checkBox_modifydate->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateStatus ), NULL, this );
-	m_choice_modiftdate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
+	m_choice_modifydate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
+	m_checkBox_createdate->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateStatus ), NULL, this );
+	m_choice_createdate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateType ), NULL, this );
 	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::DoSearch ), NULL, this );
 	m_button3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::CloseSearchDialog ), NULL, this );
 }
@@ -188,7 +222,9 @@ SearchDialog_Base::~SearchDialog_Base()
 	// Disconnect Events
 	m_checkBox_filename->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeFileNameStatus ), NULL, this );
 	m_checkBox_modifydate->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateStatus ), NULL, this );
-	m_choice_modiftdate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
+	m_choice_modifydate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
+	m_checkBox_createdate->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateStatus ), NULL, this );
+	m_choice_createdate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateType ), NULL, this );
 	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::DoSearch ), NULL, this );
 	m_button3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::CloseSearchDialog ), NULL, this );
 	

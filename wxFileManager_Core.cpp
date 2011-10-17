@@ -52,18 +52,27 @@ int CompareData(FileInfo **first, FileInfo **second)
         case SORT_FILEMODIFYDATE_DEC:
             result = (**second).m_modifytime - (**first).m_modifytime;
             break;
+
+        case SORT_FILECREATEDATE_ASC:
+            result = (**first).m_createtime - (**second).m_createtime;
+            break;
+
+        case SORT_FILECREATEDATE_DEC:
+            result = (**second).m_createtime - (**first).m_createtime;
+            break;
     }
 
     return result;
 }
 
 
-FileInfo::FileInfo(const wxString& filename, const wxString& filepath, wxULongLong filesize, time_t modifytime)
+FileInfo::FileInfo(const wxString& filename, const wxString& filepath, wxULongLong filesize, time_t modifytime, time_t createtime)
 {
     m_filename      = filename;
     m_filepath      = filepath;
     m_filesize      = filesize;
     m_modifytime    = modifytime;
+    m_createtime    = createtime;
 }
 
 FileInfo::~FileInfo()
@@ -85,6 +94,9 @@ void SearchInfo::ResetSearchInfo()
     m_modifytime_first = 0;
     m_modifytime_last = 0;
     m_modifytime_type = DATE_BEFORE;
+    m_createtime_first = 0;
+    m_createtime_last = 0;
+    m_createtime_type = DATE_BEFORE;
     m_includesub = false;
     m_includehide = false;
 }
@@ -125,10 +137,13 @@ wxDirTraverseResult FileDirTraverser::OnFile(const wxString& filename)
 
     if(m_filename.IsFileReadable())
     {
-        if(MatchModifyDate())
+        if(MatchModifyDate() && MatchCreateDate())
         {
-            m_fileinfoarray->Add(FileInfo(m_filename.GetFullName(), m_filename.GetPath(), m_filename.GetSize(), m_filename.GetModificationTime().GetTicks()));
+            wxDateTime modify_date;
+            wxDateTime create_date;
 
+            m_filename.GetTimes(NULL, &modify_date, &create_date);
+            m_fileinfoarray->Add(FileInfo(m_filename.GetFullName(), m_filename.GetPath(), m_filename.GetSize(), modify_date.GetTicks(), create_date.GetTicks()));
         }
     }
     else
@@ -191,6 +206,35 @@ bool FileDirTraverser::MatchModifyDate()
 
         case DATE_BETWEEN:
             if((file_md >= m_searchinfo->m_modifytime_first) && (file_md <= m_searchinfo->m_modifytime_last)) result = true;
+            break;
+    }
+
+    return result;
+}
+
+bool FileDirTraverser::MatchCreateDate()
+{
+    if(!m_searchinfo->m_createtime_first) return true;
+
+    wxDateTime create_date;
+
+    m_filename.GetTimes(NULL, NULL, &create_date);
+
+    time_t  file_cd = create_date.GetTicks();
+    bool    result  = false;
+
+    switch(m_searchinfo->m_createtime_type)
+    {
+        case DATE_BEFORE:
+            if(file_cd <= m_searchinfo->m_createtime_first) result = true;
+            break;
+
+        case DATE_AFTER:
+            if(file_cd >= m_searchinfo->m_createtime_first) result = true;
+            break;
+
+        case DATE_BETWEEN:
+            if((file_cd >= m_searchinfo->m_createtime_first) && (file_cd <= m_searchinfo->m_createtime_last)) result = true;
             break;
     }
 
@@ -401,6 +445,11 @@ wxString FileManager::getFileModifyDate(size_t index)
     return wxDateTime(m_filelist->Item(index).m_modifytime).Format(wxT("%Y-%m-%d %H:%M:%S"));
 }
 
+wxString FileManager::getFileCreateDate(size_t index)
+{
+    return wxDateTime(m_filelist->Item(index).m_createtime).Format(wxT("%Y-%m-%d %H:%M:%S"));
+}
+
 void FileManager::SortFileList(size_t index)
 {
     switch(index)
@@ -446,6 +495,17 @@ void FileManager::SortFileList(size_t index)
             else
             {
                 m_sorttype = SORT_FILEMODIFYDATE_ASC;
+            }
+            break;
+
+        case SORT_FILECREATEDATE:
+            if(m_sorttype == SORT_FILECREATEDATE_ASC)
+            {
+                m_sorttype = SORT_FILECREATEDATE_DEC;
+            }
+            else
+            {
+                m_sorttype = SORT_FILECREATEDATE_ASC;
             }
             break;
     }

@@ -43,6 +43,7 @@ class FileListCtrl;
 #define wxID_Menu_Clear 1002
 #define wxID_Menu_Copy 1003
 #define wxID_Menu_Move 1004
+#define wxID_Menu_Delete 1005
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxFileManagerUI_Base
@@ -63,6 +64,7 @@ class wxFileManagerUI_Base : public wxFrame
 		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ClearFileList( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ShowCopyMoveDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void DeleteFiles( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void SortFileList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
@@ -90,9 +92,13 @@ class SearchDialog_Base : public wxDialog
 		wxCheckBox* m_checkBox_filename;
 		wxTextCtrl* m_textCtrl_filename;
 		wxCheckBox* m_checkBox_modifydate;
-		wxChoice* m_choice_modiftdate;
+		wxChoice* m_choice_modifydate;
 		wxDatePickerCtrl* m_datePicker_md_first;
 		wxDatePickerCtrl* m_datePicker_md_last;
+		wxCheckBox* m_checkBox_createdate;
+		wxChoice* m_choice_createdate;
+		wxDatePickerCtrl* m_datePicker_cd_first;
+		wxDatePickerCtrl* m_datePicker_cd_last;
 		wxCheckBox* m_checkBox_includesub;
 		wxCheckBox* m_checkBox_includehide;
 		wxButton* m_button2;
@@ -102,13 +108,15 @@ class SearchDialog_Base : public wxDialog
 		virtual void ChangeFileNameStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateType( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChangeCreateDateStatus( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChangeCreateDateType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DoSearch( wxCommandEvent& event ) { event.Skip(); }
 		virtual void CloseSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		SearchDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Search Setting"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,210 ), long style = wxDEFAULT_DIALOG_STYLE );
+		SearchDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Search Setting"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,250 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~SearchDialog_Base();
 	
 };
@@ -138,7 +146,7 @@ class CopyMoveDialog_Base : public wxDialog
 	
 	public:
 		
-		CopyMoveDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Copy & Move Files"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,176 ), long style = wxCAPTION );
+		CopyMoveDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Copy & Move Files"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,175 ), long style = wxCAPTION );
 		~CopyMoveDialog_Base();
 	
 };

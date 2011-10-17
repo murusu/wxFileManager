@@ -73,8 +73,9 @@ class FileInfo
         wxString        m_filepath;
         wxULongLong     m_filesize;
         time_t          m_modifytime;
+        time_t          m_createtime;
 
-        FileInfo(const wxString& filename, const wxString& filepath, wxULongLong filesize, time_t modifytime);
+        FileInfo(const wxString& filename, const wxString& filepath, wxULongLong filesize, time_t modifytime, time_t  m_createtime);
         ~FileInfo();
 };
 
@@ -85,6 +86,9 @@ class SearchInfo
         time_t   m_modifytime_first;
         time_t   m_modifytime_last;
         size_t   m_modifytime_type;
+        time_t   m_createtime_first;
+        time_t   m_createtime_last;
+        size_t   m_createtime_type;
         bool     m_includesub;
         bool     m_includehide;
 
@@ -128,6 +132,7 @@ class FileDirTraverser : public wxDirTraverser
         wxFileName     m_filename;
 
         bool MatchModifyDate();
+        bool MatchCreateDate();
 };
 
 class FileManager
@@ -155,6 +160,7 @@ class FileManager
         wxString getFileSize(size_t index);
         wxString getFilePath(size_t index);
         wxString getFileModifyDate(size_t index);
+        wxString getFileCreateDate(size_t index);
 };
 
 class FileSearchThread : public wxThread

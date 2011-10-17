@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxFilemanager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-09 23:24+0800\n"
+"POT-Creation-Date: 2011-10-18 00:26+0800\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Murusu <murusu0.0@gmail.com>\n"
 "Language-Team: \n"
@@ -15,74 +15,84 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: D:\\MyProject\\coding\\wxFileManager\n"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:45
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:115
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:49
 msgid "File Name"
 msgstr "文件名"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:46
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:50
 msgid "File Size"
 msgstr "文件大小"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:47
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:51
 msgid "File Path"
 msgstr "文件路径"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:48
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:128
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:52
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:134
 msgid "Modify Date"
 msgstr "修改日期"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:83
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:53
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:160
+msgid "Create Date"
+msgstr "创建日期"
+
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:88
 msgid "Total 0 Files"
 msgstr "总共 0 个文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:84
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:89
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:109
 msgid "Searching files ......"
 msgstr "正在搜索文件......"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:94
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:103
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:99
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:108
 #, c-format
 msgid "Total %d Files"
 msgstr "总共 %d 个文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:95
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:100
 msgid " "
 msgstr ""
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:147
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:153
 #: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:40
 msgid "Copy"
 msgstr "复制"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:151
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:157
 #: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:44
 msgid "Move"
 msgstr "移动"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:297
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:161
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:48
+msgid "Delete"
+msgstr "删除"
+
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:349
 msgid "Copy Files"
 msgstr "复制文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:301
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:353
 msgid "Move Files"
 msgstr "移动文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:330
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:382
 msgid "processing......"
 msgstr "正在处理......"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:336
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:388
 msgid "Target path invaild!!"
 msgstr "目标路径无效"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:336
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:261
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:388
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:305
 msgid "Error"
 msgstr "错误"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:354
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI.cpp:406
 msgid "File process done"
 msgstr "文件处理完成"
 
@@ -95,7 +105,7 @@ msgid "File"
 msgstr "文件"
 
 #: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:29
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:165
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:197
 msgid "Search"
 msgstr "搜索"
 
@@ -103,110 +113,117 @@ msgstr "搜索"
 msgid "Clear List"
 msgstr "清空列表"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:47
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:51
 msgid "Commands"
 msgstr "命令"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:103
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:109
 msgid "Search Path:"
 msgstr "搜索路径："
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:107
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:211
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:113
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:247
 msgid "Select a folder"
 msgstr "选择目录"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:131
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:121
+msgid "File Name Include"
+msgstr "文件名包含"
+
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:137
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:163
 msgid "Before"
 msgstr "早于"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:131
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:137
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:163
 msgid "After"
 msgstr "晚于"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:131
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:137
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:163
 msgid "Between"
 msgstr "之间"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:154
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:186
 msgid "Include Sub Directory"
 msgstr "包含子目录"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:157
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:189
 msgid "Include Hidden"
 msgstr "包含隐藏文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:168
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:265
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:200
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:302
 msgid "Cancel"
 msgstr "取消"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:207
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:243
 msgid "Target Path:"
 msgstr "目标路径："
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:219
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:255
 msgid "When Duplicate Name:"
 msgstr "同名文件处理"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:223
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:259
 msgid "Ask"
 msgstr "询问"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:223
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:259
 msgid "Skip"
 msgstr "略过"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:223
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:259
 msgid "Override"
 msgstr "覆盖"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:223
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:259
 msgid "Override When Newer"
 msgstr "当文件较新时覆盖"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:223
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:259
 msgid "Auto Rename"
 msgstr "自动重命名"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:234
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:270
 msgid "Keep Directory Structure"
 msgstr "维持目录结构"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:262
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.cpp:299
 msgid "Run"
 msgstr "运行"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:261
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:305
 msgid "No item selected!"
 msgstr "已选文件为空！"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:343
 msgid "Replace "
 msgstr "将"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:391
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:343
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:435
 msgid "Empty File"
 msgstr "空文件"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:299
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:343
 msgid " with "
 msgstr " 替换为 "
 
-#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:301
+#: D:\MyProject\coding\wxFileManager/wxFileManager_Core.cpp:345
 msgid "Confirm"
 msgstr "确认"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:75
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:77
 msgid "wxFileManager"
 msgstr "文件管理器"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:111
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:119
 msgid "Search Setting"
 msgstr "搜索设置"
 
-#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:141
+#: D:\MyProject\coding\wxFileManager/wxFileManagerUI_Base.h:149
 msgid "Copy & Move Files"
 msgstr "复制及移动文件"
 

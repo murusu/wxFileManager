@@ -33,6 +33,10 @@ wxString FileListCtrl::OnGetItemText(long item, long column) const
         case FILE_MODIFYDATE:
             ItemText = wxGetApp().GetFileManager()->getFileModifyDate(item);
             break;
+
+        case FILE_CREATEDATE:
+            ItemText = wxGetApp().GetFileManager()->getFileCreateDate(item);
+            break;
     }
 
     return ItemText;
@@ -42,10 +46,11 @@ wxFileManagerUI::wxFileManagerUI(wxFrame *frame) : wxFileManagerUI_Base(frame)
 {
     m_popupmenu = NULL;
 
-    m_listCtrl_filelist->InsertColumn(0,_("File Name"),wxLIST_FORMAT_LEFT,100);
-    m_listCtrl_filelist->InsertColumn(1,_("File Size"),wxLIST_FORMAT_RIGHT,100);
-    m_listCtrl_filelist->InsertColumn(2,_("File Path"),wxLIST_FORMAT_LEFT,300);
-    m_listCtrl_filelist->InsertColumn(3,_("Modify Date"),wxLIST_FORMAT_LEFT,150);
+    m_listCtrl_filelist->InsertColumn(0,_("File Name"),wxLIST_FORMAT_LEFT,80);
+    m_listCtrl_filelist->InsertColumn(1,_("File Size"),wxLIST_FORMAT_RIGHT,80);
+    m_listCtrl_filelist->InsertColumn(2,_("File Path"),wxLIST_FORMAT_LEFT,240);
+    m_listCtrl_filelist->InsertColumn(3,_("Modify Date"),wxLIST_FORMAT_LEFT,100);
+    m_listCtrl_filelist->InsertColumn(4,_("Create Date"),wxLIST_FORMAT_LEFT,100);
 
     this->Connect(wxEVT_FILEPROCESS_SEARCH, wxFileProcessEventHandler(wxFileManagerUI::OnFileProcessSearch));
     this->Connect(wxEVT_FILEPROCESS_SUCCESS, wxFileProcessEventHandler(wxFileManagerUI::OnFileProcessSuccess));
@@ -152,8 +157,13 @@ wxMenu* wxFileManagerUI::GetPopupMenu()
 	m_menuItem_move = new wxMenuItem( m_popupmenu, wxID_Menu_Move, wxString( _("Move") ) , wxEmptyString, wxITEM_NORMAL );
 	m_popupmenu->Append( m_menuItem_move );
 
+	wxMenuItem* m_menuItem_delete;
+	m_menuItem_delete = new wxMenuItem( m_popupmenu, wxID_Menu_Delete, wxString( _("Delete") ) , wxEmptyString, wxITEM_NORMAL );
+	m_popupmenu->Append( m_menuItem_delete );
+
     this->Connect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI::ShowCopyMoveDialog ));
     this->Connect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI::ShowCopyMoveDialog ));
+    this->Connect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI::DeleteFiles ));
 
     return m_popupmenu;
 }
@@ -220,14 +230,14 @@ void SearchDialog::ChangeModifyDateStatus( wxCommandEvent& event )
 {
     if(m_checkBox_modifydate->IsChecked())
     {
-        m_choice_modiftdate->Enable(true);
+        m_choice_modifydate->Enable(true);
 
         wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED);
-        m_choice_modiftdate->AddPendingEvent(event);
+        m_choice_modifydate->AddPendingEvent(event);
     }
     else
     {
-        m_choice_modiftdate->Enable(false);
+        m_choice_modifydate->Enable(false);
         m_datePicker_md_first->Enable(false);
         m_datePicker_md_last->Enable(false);
     }
@@ -235,7 +245,7 @@ void SearchDialog::ChangeModifyDateStatus( wxCommandEvent& event )
 
 void SearchDialog::ChangeModifyDateType( wxCommandEvent& event )
 {
-    switch(m_choice_modiftdate->GetCurrentSelection())
+    switch(m_choice_modifydate->GetCurrentSelection())
     {
         case DATE_BEFORE:
         case DATE_AFTER:
@@ -246,6 +256,40 @@ void SearchDialog::ChangeModifyDateType( wxCommandEvent& event )
         case DATE_BETWEEN:
             m_datePicker_md_first->Enable(true);
             m_datePicker_md_last->Enable(true);
+            break;
+    }
+}
+
+void SearchDialog::ChangeCreateDateStatus( wxCommandEvent& event )
+{
+    if(m_checkBox_createdate->IsChecked())
+    {
+        m_choice_createdate->Enable(true);
+
+        wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED);
+        m_choice_createdate->AddPendingEvent(event);
+    }
+    else
+    {
+        m_choice_createdate->Enable(false);
+        m_datePicker_cd_first->Enable(false);
+        m_datePicker_cd_last->Enable(false);
+    }
+}
+
+void SearchDialog::ChangeCreateDateType( wxCommandEvent& event )
+{
+    switch(m_choice_createdate->GetCurrentSelection())
+    {
+        case DATE_BEFORE:
+        case DATE_AFTER:
+            m_datePicker_cd_first->Enable(true);
+            m_datePicker_cd_last->Enable(false);
+            break;
+
+        case DATE_BETWEEN:
+            m_datePicker_cd_first->Enable(true);
+            m_datePicker_cd_last->Enable(true);
             break;
     }
 }
@@ -261,9 +305,16 @@ void SearchDialog::DoSearch( wxCommandEvent& event )
 
     if(m_checkBox_modifydate->IsChecked())
     {
-        search_info->m_modifytime_type = m_choice_modiftdate->GetCurrentSelection();
+        search_info->m_modifytime_type = m_choice_modifydate->GetCurrentSelection();
         search_info->m_modifytime_first = m_datePicker_md_first->GetValue().GetTicks();
-        if(m_choice_modiftdate->GetCurrentSelection() == DATE_BETWEEN) search_info->m_modifytime_last = m_datePicker_md_last->GetValue().GetTicks();
+        if(m_choice_modifydate->GetCurrentSelection() == DATE_BETWEEN) search_info->m_modifytime_last = m_datePicker_md_last->GetValue().GetTicks();
+    }
+
+    if(m_checkBox_createdate->IsChecked())
+    {
+        search_info->m_createtime_type = m_choice_createdate->GetCurrentSelection();
+        search_info->m_createtime_first = m_datePicker_cd_first->GetValue().GetTicks();
+        if(m_choice_createdate->GetCurrentSelection() == DATE_BETWEEN) search_info->m_createtime_last = m_datePicker_cd_last->GetValue().GetTicks();
     }
 
     wxFileProcessEvent file_event(wxEVT_FILEPROCESS_SEARCH);
