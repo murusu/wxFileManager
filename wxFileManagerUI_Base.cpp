@@ -180,11 +180,35 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	
 	bSizer4->Add( bSizer16, 0, wxEXPAND, 5 );
 	
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxVERTICAL );
+	
+	m_checkBox_dirbase = new wxCheckBox( this, wxID_ANY, _("Regard Leaf Directory Node as File When Date Check"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox_dirbase->Enable( false );
+	
+	bSizer17->Add( m_checkBox_dirbase, 0, wxALL, 5 );
+	
+	bSizer4->Add( bSizer17, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer18;
+	bSizer18 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_checkBox_includesub = new wxCheckBox( this, wxID_ANY, _("Include Sub Directory"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	bSizer18->Add( m_checkBox_includesub, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_staticText5 = new wxStaticText( this, wxID_ANY, _("Search Depth:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText5->Wrap( -1 );
+	bSizer18->Add( m_staticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_spinCtrl_depth = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 255, 1 );
+	m_spinCtrl_depth->Enable( false );
+	
+	bSizer18->Add( m_spinCtrl_depth, 0, wxALL, 5 );
+	
+	bSizer4->Add( bSizer18, 0, wxEXPAND, 5 );
+	
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxVERTICAL );
-	
-	m_checkBox_includesub = new wxCheckBox( this, wxID_ANY, _("Include Sub Directory"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer8->Add( m_checkBox_includesub, 0, wxALL, 5 );
 	
 	m_checkBox_includehide = new wxCheckBox( this, wxID_ANY, _("Include Hidden"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer8->Add( m_checkBox_includehide, 0, wxALL, 5 );
@@ -213,6 +237,7 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	m_choice_modifydate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
 	m_checkBox_createdate->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateStatus ), NULL, this );
 	m_choice_createdate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateType ), NULL, this );
+	m_checkBox_includesub->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeSubDirStatus ), NULL, this );
 	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::DoSearch ), NULL, this );
 	m_button3->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::CloseSearchDialog ), NULL, this );
 }
@@ -225,6 +250,7 @@ SearchDialog_Base::~SearchDialog_Base()
 	m_choice_modifydate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeModifyDateType ), NULL, this );
 	m_checkBox_createdate->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateStatus ), NULL, this );
 	m_choice_createdate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialog_Base::ChangeCreateDateType ), NULL, this );
+	m_checkBox_includesub->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialog_Base::ChangeSubDirStatus ), NULL, this );
 	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::DoSearch ), NULL, this );
 	m_button3->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialog_Base::CloseSearchDialog ), NULL, this );
 	

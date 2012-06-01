@@ -32,6 +32,7 @@ class FileListCtrl;
 #include <wx/choice.h>
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
+#include <wx/spinctrl.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 #include <wx/gauge.h>
@@ -99,7 +100,10 @@ class SearchDialog_Base : public wxDialog
 		wxChoice* m_choice_createdate;
 		wxDatePickerCtrl* m_datePicker_cd_first;
 		wxDatePickerCtrl* m_datePicker_cd_last;
+		wxCheckBox* m_checkBox_dirbase;
 		wxCheckBox* m_checkBox_includesub;
+		wxStaticText* m_staticText5;
+		wxSpinCtrl* m_spinCtrl_depth;
 		wxCheckBox* m_checkBox_includehide;
 		wxButton* m_button2;
 		wxButton* m_button3;
@@ -110,13 +114,14 @@ class SearchDialog_Base : public wxDialog
 		virtual void ChangeModifyDateType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeCreateDateStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeCreateDateType( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChangeSubDirStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DoSearch( wxCommandEvent& event ) { event.Skip(); }
 		virtual void CloseSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		SearchDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Search Setting"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,250 ), long style = wxDEFAULT_DIALOG_STYLE );
+		SearchDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Search Setting"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,271 ), long style = wxDEFAULT_DIALOG_STYLE );
 		~SearchDialog_Base();
 	
 };

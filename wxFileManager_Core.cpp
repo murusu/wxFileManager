@@ -165,8 +165,23 @@ wxDirTraverseResult FileDirTraverser::OnFile(const wxString& filename)
     return wxDIR_CONTINUE;
 }
 
-wxDirTraverseResult FileDirTraverser::OnDir(const wxString& WXUNUSED(dirname))
+wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
 {
+    m_filename.Assign(dirname);
+
+    if(m_filename.IsDirReadable())
+    {
+        if(MatchModifyDate() && MatchCreateDate())
+        {
+            wxFileName cwd_filename(wxGetCwd());
+
+            if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) > 0)
+        }
+    }
+    else
+    {
+    }
+
     if(m_route > 500)
     {
         wxFileProcessEvent event(wxEVT_FILEPROCESS_UPDATE);
