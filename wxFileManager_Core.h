@@ -89,8 +89,10 @@ class SearchInfo
         time_t   m_createtime_first;
         time_t   m_createtime_last;
         size_t   m_createtime_type;
+        size_t   m_search_depth;
         bool     m_includesub;
         bool     m_includehide;
+        bool     m_dirbase_search;
 
         SearchInfo();
         ~SearchInfo();

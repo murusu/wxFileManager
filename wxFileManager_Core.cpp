@@ -97,8 +97,10 @@ void SearchInfo::ResetSearchInfo()
     m_createtime_first = 0;
     m_createtime_last = 0;
     m_createtime_type = DATE_BEFORE;
+    m_search_depth = 0;
     m_includesub = false;
     m_includehide = false;
+    m_dirbase_search = false;
 }
 
 ActionInfo::ActionInfo()
@@ -171,17 +173,51 @@ wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
 
     if(m_filename.IsDirReadable())
     {
+        /*
         if(MatchModifyDate() && MatchCreateDate())
         {
             wxFileName cwd_filename(wxGetCwd());
 
-            if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) > 0)
+            if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) > m_searchinfo->m_search_depth) return wxDIR_IGNORE;
+        }
+        */
+        wxFileName cwd_filename(wxGetCwd());
+
+        if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) >= m_searchinfo->m_search_depth)
+        {
+            if((m_searchinfo->m_dirbase_search) && MatchModifyDate() && MatchCreateDate())
+            {
+                wxDir dir(m_filename.GetPath());
+                wxArrayString dir_files;
+                wxFileName target_file;
+                size_t file_num = 0;
+
+                file_num = dir.GetAllFiles(m_filename.GetPath(), &dir_files);
+                for(size_t i=0; i<file_num; i++)
+                {
+                    target_file.Assign(dir_files[i]);
+
+                    wxDateTime modify_date;
+                    wxDateTime create_date;
+
+                    target_file.GetTimes(NULL, &modify_date, &create_date);
+                    m_fileinfoarray->Add(FileInfo(target_file.GetFullName(), target_file.GetPath(), target_file.GetSize(), modify_date.GetTicks(), create_date.GetTicks()));
+                }
+            }
+
+            return wxDIR_IGNORE;
+        }
+        else
+        {
+            return wxDIR_CONTINUE;
         }
     }
     else
     {
     }
 
+
+/*
     if(m_route > 500)
     {
         wxFileProcessEvent event(wxEVT_FILEPROCESS_UPDATE);
@@ -195,6 +231,7 @@ wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
     }
 
     return wxDIR_CONTINUE;
+*/
 }
 
 wxDirTraverseResult FileDirTraverser::OnOpenError(const wxString& WXUNUSED(dirname))

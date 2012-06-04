@@ -228,18 +228,24 @@ void SearchDialog::ChangeFileNameStatus( wxCommandEvent& event )
 
 void SearchDialog::ChangeModifyDateStatus( wxCommandEvent& event )
 {
+    m_checkBox_dirbase->Enable(false);
+
     if(m_checkBox_modifydate->IsChecked())
     {
         m_choice_modifydate->Enable(true);
 
         wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED);
         m_choice_modifydate->AddPendingEvent(event);
+
+        m_checkBox_dirbase->Enable(true);
     }
     else
     {
         m_choice_modifydate->Enable(false);
         m_datePicker_md_first->Enable(false);
         m_datePicker_md_last->Enable(false);
+
+        if(m_checkBox_createdate->IsChecked()) m_checkBox_dirbase->Enable(true);
     }
 }
 
@@ -262,18 +268,24 @@ void SearchDialog::ChangeModifyDateType( wxCommandEvent& event )
 
 void SearchDialog::ChangeCreateDateStatus( wxCommandEvent& event )
 {
+    m_checkBox_dirbase->Enable(false);
+
     if(m_checkBox_createdate->IsChecked())
     {
         m_choice_createdate->Enable(true);
 
         wxCommandEvent event(wxEVT_COMMAND_CHOICE_SELECTED);
         m_choice_createdate->AddPendingEvent(event);
+
+        m_checkBox_dirbase->Enable(true);
     }
     else
     {
         m_choice_createdate->Enable(false);
         m_datePicker_cd_first->Enable(false);
         m_datePicker_cd_last->Enable(false);
+
+        if(m_checkBox_modifydate->IsChecked()) m_checkBox_dirbase->Enable(true);
     }
 }
 
@@ -294,14 +306,27 @@ void SearchDialog::ChangeCreateDateType( wxCommandEvent& event )
     }
 }
 
+void SearchDialog::ChangeSubDirStatus( wxCommandEvent& event )
+{
+    if(m_checkBox_includesub->IsChecked())
+    {
+        m_spinCtrl_depth->Enable(true);
+    }
+    else
+    {
+        m_spinCtrl_depth->Enable(false);
+    }
+}
+
 void SearchDialog::DoSearch( wxCommandEvent& event )
 {
     SearchInfo *search_info = wxGetApp().GetFileManager()->GetSearchInfo();
     search_info->ResetSearchInfo();
 
     if(m_checkBox_filename->IsChecked()) search_info->m_filename = m_textCtrl_filename->GetValue();
-    if(m_checkBox_includesub->IsChecked())  search_info->m_includesub = true;
+    if(m_checkBox_includesub->IsChecked())  {search_info->m_includesub = true; search_info->m_search_depth = m_spinCtrl_depth->GetValue();}
     if(m_checkBox_includehide->IsChecked()) search_info->m_includehide = true;
+    if(m_checkBox_dirbase->IsChecked() && (m_checkBox_modifydate->IsChecked() || m_checkBox_createdate->IsChecked())) search_info->m_dirbase_search = true;
 
     if(m_checkBox_modifydate->IsChecked())
     {
