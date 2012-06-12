@@ -39,12 +39,20 @@ class FileListCtrl;
 
 ///////////////////////////////////////////////////////////////////////////
 
-#define wxID_Menu_Exit 1000
-#define wxID_Menu_Search 1001
-#define wxID_Menu_Clear 1002
-#define wxID_Menu_Copy 1003
-#define wxID_Menu_Move 1004
-#define wxID_Menu_Delete 1005
+#define wxID_Menu_SaveList 1000
+#define wxID_Menu_LoadList 1001
+#define wxID_Menu_Exit 1002
+#define wxID_Menu_RemoveFile 1003
+#define wxID_Menu_FilterFile 1004
+#define wxID_Menu_ClearList 1005
+#define wxID_Menu_Copy 1006
+#define wxID_Menu_Move 1007
+#define wxID_Menu_Delete 1008
+#define wxID_Menu_Rename 1009
+#define wxID_Menu_OpenFile 1010
+#define wxID_Menu_OpenFolder 1011
+#define wxID_Menu_SearchAll 1012
+#define wxID_Menu_CondSearch 1013
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxFileManagerUI_Base
@@ -58,14 +66,15 @@ class wxFileManagerUI_Base : public wxFrame
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
 		wxMenu* m_menu4;
+		wxMenu* m_menu_search;
 		FileListCtrl* m_listCtrl_filelist;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void ExitProgram( wxCommandEvent& event ) { event.Skip(); }
-		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ClearFileList( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ShowCopyMoveDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DeleteFiles( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void SortFileList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
@@ -100,10 +109,10 @@ class SearchDialog_Base : public wxDialog
 		wxChoice* m_choice_createdate;
 		wxDatePickerCtrl* m_datePicker_cd_first;
 		wxDatePickerCtrl* m_datePicker_cd_last;
-		wxCheckBox* m_checkBox_dirbase;
 		wxCheckBox* m_checkBox_includesub;
 		wxStaticText* m_staticText5;
 		wxSpinCtrl* m_spinCtrl_depth;
+		wxCheckBox* m_checkBox_dirbase;
 		wxCheckBox* m_checkBox_includehide;
 		wxButton* m_button2;
 		wxButton* m_button3;

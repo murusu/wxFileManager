@@ -18,6 +18,19 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_statusBar = this->CreateStatusBar( 3, wxST_SIZEGRIP, wxID_ANY );
 	m_menubar1 = new wxMenuBar( 0 );
 	m_menu1 = new wxMenu();
+	wxMenuItem* m_menuItem_savelist;
+	m_menuItem_savelist = new wxMenuItem( m_menu1, wxID_Menu_SaveList, wxString( _("Save List") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu1->Append( m_menuItem_savelist );
+	m_menuItem_savelist->Enable( false );
+	
+	wxMenuItem* m_menuItem_loadlist;
+	m_menuItem_loadlist = new wxMenuItem( m_menu1, wxID_Menu_LoadList, wxString( _("Load List") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu1->Append( m_menuItem_loadlist );
+	m_menuItem_loadlist->Enable( false );
+	
+	wxMenuItem* m_separator2;
+	m_separator2 = m_menu1->AppendSeparator();
+	
 	wxMenuItem* m_menuItem_Exit;
 	m_menuItem_Exit = new wxMenuItem( m_menu1, wxID_Menu_Exit, wxString( _("Exit") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu1->Append( m_menuItem_Exit );
@@ -25,13 +38,19 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_menubar1->Append( m_menu1, _("File") ); 
 	
 	m_menu4 = new wxMenu();
-	wxMenuItem* m_menuItem_search;
-	m_menuItem_search = new wxMenuItem( m_menu4, wxID_Menu_Search, wxString( _("Search") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menu4->Append( m_menuItem_search );
+	wxMenuItem* m_menuItem_removefiles;
+	m_menuItem_removefiles = new wxMenuItem( m_menu4, wxID_Menu_RemoveFile, wxString( _("Remove Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_removefiles );
+	m_menuItem_removefiles->Enable( false );
 	
-	wxMenuItem* m_menuItem_clear;
-	m_menuItem_clear = new wxMenuItem( m_menu4, wxID_Menu_Clear, wxString( _("Clear List") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menu4->Append( m_menuItem_clear );
+	wxMenuItem* m_menuItem_filterfile;
+	m_menuItem_filterfile = new wxMenuItem( m_menu4, wxID_Menu_FilterFile, wxString( _("Filter Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_filterfile );
+	m_menuItem_filterfile->Enable( false );
+	
+	wxMenuItem* m_menuItem_clearlist;
+	m_menuItem_clearlist = new wxMenuItem( m_menu4, wxID_Menu_ClearList, wxString( _("Clear List") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_clearlist );
 	
 	wxMenuItem* m_separator1;
 	m_separator1 = m_menu4->AppendSeparator();
@@ -48,7 +67,40 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_menuItem_delete = new wxMenuItem( m_menu4, wxID_Menu_Delete, wxString( _("Delete") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu4->Append( m_menuItem_delete );
 	
-	m_menubar1->Append( m_menu4, _("Commands") ); 
+	wxMenuItem* m_separator5;
+	m_separator5 = m_menu4->AppendSeparator();
+	
+	wxMenuItem* m_menuItem_rename;
+	m_menuItem_rename = new wxMenuItem( m_menu4, wxID_Menu_Rename, wxString( _("Rename") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_rename );
+	m_menuItem_rename->Enable( false );
+	
+	wxMenuItem* m_separator6;
+	m_separator6 = m_menu4->AppendSeparator();
+	
+	wxMenuItem* m_menuItem_openfile;
+	m_menuItem_openfile = new wxMenuItem( m_menu4, wxID_Menu_OpenFile, wxString( _("Open File") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_openfile );
+	m_menuItem_openfile->Enable( false );
+	
+	wxMenuItem* m_menuItem_openfolder;
+	m_menuItem_openfolder = new wxMenuItem( m_menu4, wxID_Menu_OpenFolder, wxString( _("Open Folder") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_openfolder );
+	m_menuItem_openfolder->Enable( false );
+	
+	m_menubar1->Append( m_menu4, _("Actions") ); 
+	
+	m_menu_search = new wxMenu();
+	wxMenuItem* m_menuItem_searchall;
+	m_menuItem_searchall = new wxMenuItem( m_menu_search, wxID_Menu_SearchAll, wxString( _("Search All Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_search->Append( m_menuItem_searchall );
+	m_menuItem_searchall->Enable( false );
+	
+	wxMenuItem* m_menuItem_condsearch;
+	m_menuItem_condsearch = new wxMenuItem( m_menu_search, wxID_Menu_CondSearch, wxString( _("Conditional Search") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_search->Append( m_menuItem_condsearch );
+	
+	m_menubar1->Append( m_menu_search, _("Search") ); 
 	
 	this->SetMenuBar( m_menubar1 );
 	
@@ -67,11 +119,11 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	
 	// Connect Events
 	this->Connect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ExitProgram ) );
-	this->Connect( wxID_Menu_Search, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
-	this->Connect( wxID_Menu_Clear, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
+	this->Connect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Connect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Connect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Connect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
+	this->Connect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
 	m_listCtrl_filelist->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -83,11 +135,11 @@ wxFileManagerUI_Base::~wxFileManagerUI_Base()
 {
 	// Disconnect Events
 	this->Disconnect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ExitProgram ) );
-	this->Disconnect( wxID_Menu_Search, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
-	this->Disconnect( wxID_Menu_Clear, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
+	this->Disconnect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Disconnect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Disconnect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Disconnect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
+	this->Disconnect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
 	m_listCtrl_filelist->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -180,16 +232,6 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	
 	bSizer4->Add( bSizer16, 0, wxEXPAND, 5 );
 	
-	wxBoxSizer* bSizer17;
-	bSizer17 = new wxBoxSizer( wxVERTICAL );
-	
-	m_checkBox_dirbase = new wxCheckBox( this, wxID_ANY, _("Regard Leaf Directory Node as File When Date Check"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_checkBox_dirbase->Enable( false );
-	
-	bSizer17->Add( m_checkBox_dirbase, 0, wxALL, 5 );
-	
-	bSizer4->Add( bSizer17, 0, wxEXPAND, 5 );
-	
 	wxBoxSizer* bSizer18;
 	bSizer18 = new wxBoxSizer( wxHORIZONTAL );
 	
@@ -206,6 +248,16 @@ SearchDialog_Base::SearchDialog_Base( wxWindow* parent, wxWindowID id, const wxS
 	bSizer18->Add( m_spinCtrl_depth, 0, wxALL, 5 );
 	
 	bSizer4->Add( bSizer18, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer17;
+	bSizer17 = new wxBoxSizer( wxVERTICAL );
+	
+	m_checkBox_dirbase = new wxCheckBox( this, wxID_ANY, _("Regard Leaf Directory Node as File When Date Check"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox_dirbase->Enable( false );
+	
+	bSizer17->Add( m_checkBox_dirbase, 0, wxALL, 5 );
+	
+	bSizer4->Add( bSizer17, 0, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxVERTICAL );

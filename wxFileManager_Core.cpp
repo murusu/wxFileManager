@@ -173,14 +173,6 @@ wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
 
     if(m_filename.IsDirReadable())
     {
-        /*
-        if(MatchModifyDate() && MatchCreateDate())
-        {
-            wxFileName cwd_filename(wxGetCwd());
-
-            if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) > m_searchinfo->m_search_depth) return wxDIR_IGNORE;
-        }
-        */
         wxFileName cwd_filename(wxGetCwd());
 
         if((m_filename.GetDirCount() - cwd_filename.GetDirCount()) >= m_searchinfo->m_search_depth)
@@ -205,7 +197,8 @@ wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
                 }
             }
 
-            return wxDIR_IGNORE;
+            //return wxDIR_IGNORE;
+            return wxDIR_CONTINUE;
         }
         else
         {
@@ -215,23 +208,6 @@ wxDirTraverseResult FileDirTraverser::OnDir(const wxString& dirname)
     else
     {
     }
-
-
-/*
-    if(m_route > 500)
-    {
-        wxFileProcessEvent event(wxEVT_FILEPROCESS_UPDATE);
-        wxGetApp().GetTopWindow()->AddPendingEvent(event);
-
-        m_route = 0;
-    }
-    else
-    {
-        m_route++;
-    }
-
-    return wxDIR_CONTINUE;
-*/
 }
 
 wxDirTraverseResult FileDirTraverser::OnOpenError(const wxString& WXUNUSED(dirname))

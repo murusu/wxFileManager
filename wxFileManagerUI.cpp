@@ -149,6 +149,21 @@ wxMenu* wxFileManagerUI::GetPopupMenu()
 
     m_popupmenu = new wxMenu();
 
+    wxMenuItem* m_menuItem_removefile;
+	m_menuItem_removefile = new wxMenuItem( m_popupmenu, wxID_Menu_RemoveFile, wxString( _("Remove Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_popupmenu->Append( m_menuItem_removefile );
+
+	wxMenuItem* m_menuItem_filterfile;
+	m_menuItem_filterfile = new wxMenuItem( m_popupmenu, wxID_Menu_FilterFile, wxString( _("Filter Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_popupmenu->Append( m_menuItem_filterfile );
+
+	wxMenuItem* m_menuItem_clearlist;
+	m_menuItem_clearlist = new wxMenuItem( m_popupmenu, wxID_Menu_FilterFile, wxString( _("Filter Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_popupmenu->Append( m_menuItem_clearlist );
+
+    wxMenuItem* m_separator01;
+	m_separator01 = m_popupmenu->AppendSeparator();
+
     wxMenuItem* m_menuItem_copy;
 	m_menuItem_copy = new wxMenuItem( m_popupmenu, wxID_Menu_Copy, wxString( _("Copy") ) , wxEmptyString, wxITEM_NORMAL );
 	m_popupmenu->Append( m_menuItem_copy );
@@ -160,6 +175,9 @@ wxMenu* wxFileManagerUI::GetPopupMenu()
 	wxMenuItem* m_menuItem_delete;
 	m_menuItem_delete = new wxMenuItem( m_popupmenu, wxID_Menu_Delete, wxString( _("Delete") ) , wxEmptyString, wxITEM_NORMAL );
 	m_popupmenu->Append( m_menuItem_delete );
+
+	wxMenuItem* m_separator02;
+	m_separator02 = m_popupmenu->AppendSeparator();
 
     this->Connect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI::ShowCopyMoveDialog ));
     this->Connect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI::ShowCopyMoveDialog ));
