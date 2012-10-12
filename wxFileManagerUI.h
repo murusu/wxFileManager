@@ -41,6 +41,7 @@ class wxFileManagerUI : public wxFileManagerUI_Base
 		void ExitProgram( wxCommandEvent& event );
 		void ShowSearchDialog( wxCommandEvent& event );
 		void ShowCopyMoveDialog( wxCommandEvent& event );
+		void ShowContentReplaceDialog( wxCommandEvent& event );
 		void ShowPopupMenu( wxListEvent& event );
 		void OnListKeyDown( wxKeyEvent& event );
 		void SortFileList( wxListEvent& event );
@@ -79,6 +80,20 @@ class CopyMoveDialog: public CopyMoveDialog_Base
 
 		void DoAction( wxCommandEvent& event );
 		void CloseCopyMoveDialog( wxCommandEvent& event );
+
+		wxGauge* GetGauge();
+};
+
+class ContentReplaceDialog: public ContentReplaceDialog_Base
+{
+	public:
+		ContentReplaceDialog(wxFrame *frame);
+		~ContentReplaceDialog();
+
+		void OnFileProcessSuccess( wxFileProcessEvent& event );
+
+		void DoAction( wxCommandEvent& event );
+		void CloseContentReplaceDialog( wxCommandEvent& event );
 
 		wxGauge* GetGauge();
 };

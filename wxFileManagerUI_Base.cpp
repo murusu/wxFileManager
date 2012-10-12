@@ -37,6 +37,18 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	
 	m_menubar1->Append( m_menu1, _("File") ); 
 	
+	m_menu_search = new wxMenu();
+	wxMenuItem* m_menuItem_searchall;
+	m_menuItem_searchall = new wxMenuItem( m_menu_search, wxID_Menu_SearchAll, wxString( _("Search All Files") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_search->Append( m_menuItem_searchall );
+	m_menuItem_searchall->Enable( false );
+	
+	wxMenuItem* m_menuItem_condsearch;
+	m_menuItem_condsearch = new wxMenuItem( m_menu_search, wxID_Menu_CondSearch, wxString( _("Conditional Search") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_search->Append( m_menuItem_condsearch );
+	
+	m_menubar1->Append( m_menu_search, _("Search") ); 
+	
 	m_menu4 = new wxMenu();
 	wxMenuItem* m_menuItem_removefiles;
 	m_menuItem_removefiles = new wxMenuItem( m_menu4, wxID_Menu_RemoveFile, wxString( _("Remove Files") ) , wxEmptyString, wxITEM_NORMAL );
@@ -75,6 +87,10 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_menu4->Append( m_menuItem_rename );
 	m_menuItem_rename->Enable( false );
 	
+	wxMenuItem* m_menuItem_replacecontent;
+	m_menuItem_replacecontent = new wxMenuItem( m_menu4, wxID_Menu_Replace, wxString( _("Content Replace") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu4->Append( m_menuItem_replacecontent );
+	
 	wxMenuItem* m_separator6;
 	m_separator6 = m_menu4->AppendSeparator();
 	
@@ -89,18 +105,6 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	m_menuItem_openfolder->Enable( false );
 	
 	m_menubar1->Append( m_menu4, _("Actions") ); 
-	
-	m_menu_search = new wxMenu();
-	wxMenuItem* m_menuItem_searchall;
-	m_menuItem_searchall = new wxMenuItem( m_menu_search, wxID_Menu_SearchAll, wxString( _("Search All Files") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menu_search->Append( m_menuItem_searchall );
-	m_menuItem_searchall->Enable( false );
-	
-	wxMenuItem* m_menuItem_condsearch;
-	m_menuItem_condsearch = new wxMenuItem( m_menu_search, wxID_Menu_CondSearch, wxString( _("Conditional Search") ) , wxEmptyString, wxITEM_NORMAL );
-	m_menu_search->Append( m_menuItem_condsearch );
-	
-	m_menubar1->Append( m_menu_search, _("Search") ); 
 	
 	this->SetMenuBar( m_menubar1 );
 	
@@ -119,11 +123,12 @@ wxFileManagerUI_Base::wxFileManagerUI_Base( wxWindow* parent, wxWindowID id, con
 	
 	// Connect Events
 	this->Connect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ExitProgram ) );
+	this->Connect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
 	this->Connect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Connect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Connect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Connect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
-	this->Connect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
+	this->Connect( wxID_Menu_Replace, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowContentReplaceDialog ) );
 	m_listCtrl_filelist->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Connect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -135,11 +140,12 @@ wxFileManagerUI_Base::~wxFileManagerUI_Base()
 {
 	// Disconnect Events
 	this->Disconnect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ExitProgram ) );
+	this->Disconnect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
 	this->Disconnect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ClearFileList ) );
 	this->Disconnect( wxID_Menu_Copy, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Disconnect( wxID_Menu_Move, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowCopyMoveDialog ) );
 	this->Disconnect( wxID_Menu_Delete, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::DeleteFiles ) );
-	this->Disconnect( wxID_Menu_CondSearch, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowSearchDialog ) );
+	this->Disconnect( wxID_Menu_Replace, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUI_Base::ShowContentReplaceDialog ) );
 	m_listCtrl_filelist->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( wxFileManagerUI_Base::OnListKeyDown ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_COL_CLICK, wxListEventHandler( wxFileManagerUI_Base::SortFileList ), NULL, this );
 	m_listCtrl_filelist->Disconnect( wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, wxListEventHandler( wxFileManagerUI_Base::ShowPopupMenu ), NULL, this );
@@ -399,5 +405,87 @@ CopyMoveDialog_Base::~CopyMoveDialog_Base()
 	// Disconnect Events
 	m_button_run->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CopyMoveDialog_Base::DoAction ), NULL, this );
 	m_button_cancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CopyMoveDialog_Base::CloseCopyMoveDialog ), NULL, this );
+	
+}
+
+ContentReplaceDialog_Base::ContentReplaceDialog_Base( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer19;
+	bSizer19 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* bSizer20;
+	bSizer20 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText7 = new wxStaticText( this, wxID_ANY, _("Original Text:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText7->Wrap( -1 );
+	bSizer20->Add( m_staticText7, 0, wxALL, 5 );
+	
+	m_textCtrl_original = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,70 ), wxTE_MULTILINE );
+	bSizer20->Add( m_textCtrl_original, 0, wxALL, 5 );
+	
+	bSizer19->Add( bSizer20, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer21;
+	bSizer21 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText6 = new wxStaticText( this, wxID_ANY, _("Replace Text:"), wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	m_staticText6->Wrap( -1 );
+	bSizer21->Add( m_staticText6, 0, wxALL, 5 );
+	
+	m_textCtrl_replace = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,70 ), wxTE_MULTILINE );
+	bSizer21->Add( m_textCtrl_replace, 0, wxALL, 5 );
+	
+	bSizer19->Add( bSizer21, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer23;
+	bSizer23 = new wxBoxSizer( wxVERTICAL );
+	
+	m_gauge = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( -1,10 ), wxGA_HORIZONTAL );
+	bSizer23->Add( m_gauge, 0, wxALL|wxEXPAND, 5 );
+	
+	bSizer19->Add( bSizer23, 0, wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxBoxSizer* bSizer15;
+	bSizer15 = new wxBoxSizer( wxVERTICAL );
+	
+	m_staticText_info = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText_info->Wrap( -1 );
+	bSizer15->Add( m_staticText_info, 1, wxALL, 5 );
+	
+	bSizer12->Add( bSizer15, 1, wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxBoxSizer* bSizer16;
+	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_button_run = new wxButton( this, wxID_ANY, _("Run"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer16->Add( m_button_run, 0, wxALL, 5 );
+	
+	m_button_cancel = new wxButton( this, wxID_ANY, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer16->Add( m_button_cancel, 0, wxALL|wxRIGHT, 5 );
+	
+	bSizer12->Add( bSizer16, 0, 0, 5 );
+	
+	bSizer19->Add( bSizer12, 0, wxEXPAND, 5 );
+	
+	this->SetSizer( bSizer19 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_button_run->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ContentReplaceDialog_Base::DoAction ), NULL, this );
+	m_button_cancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ContentReplaceDialog_Base::CloseContentReplaceDialog ), NULL, this );
+}
+
+ContentReplaceDialog_Base::~ContentReplaceDialog_Base()
+{
+	// Disconnect Events
+	m_button_run->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ContentReplaceDialog_Base::DoAction ), NULL, this );
+	m_button_cancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ContentReplaceDialog_Base::CloseContentReplaceDialog ), NULL, this );
 	
 }

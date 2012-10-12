@@ -138,6 +138,13 @@ void wxFileManagerUI::ShowCopyMoveDialog( wxCommandEvent& event )
     copymove_dialog->ShowModal();
 }
 
+void wxFileManagerUI::ShowContentReplaceDialog( wxCommandEvent& event )
+{
+    ContentReplaceDialog *contentreplace_dialog = new ContentReplaceDialog(this);
+
+    contentreplace_dialog->ShowModal();
+}
+
 void wxFileManagerUI::ShowPopupMenu( wxListEvent& event )
 {
     PopupMenu(GetPopupMenu(), event.GetPoint());
@@ -454,3 +461,66 @@ void CopyMoveDialog::CloseCopyMoveDialog( wxCommandEvent& event )
     Close();
 }
 
+//////////////////////////////////////////////////////////////////
+
+ContentReplaceDialog::ContentReplaceDialog(wxFrame *frame) : ContentReplaceDialog_Base(frame)
+{
+    this->Connect(wxEVT_FILEPROCESS_SUCCESS, wxFileProcessEventHandler(ContentReplaceDialog::OnFileProcessSuccess));
+}
+
+ContentReplaceDialog::~ContentReplaceDialog()
+{
+}
+
+wxGauge* ContentReplaceDialog::GetGauge()
+{
+    return m_gauge;
+}
+
+void ContentReplaceDialog::DoAction( wxCommandEvent& event )
+{
+    ActionInfo *action_info = wxGetApp().GetFileManager()->GetActionInfo();
+    action_info->ResetActionInfo();
+
+    //if(m_dirPicker->GetPath().Len())
+    //{
+        action_info->m_actiontype       = ACTION_REPLACE;
+        action_info->m_originaltext     = m_textCtrl_original->GetValue();
+        action_info->m_replacetext      = m_textCtrl_replace->GetValue();
+
+        action_info->m_dialog = this;
+
+        m_textCtrl_original->Enable(false);
+        m_textCtrl_replace->Enable(false);
+        m_button_run->Enable(false);
+        m_button_cancel->Enable(false);
+
+        m_staticText_info->SetLabel(_("processing......"));
+
+        wxGetApp().GetFileManager()->DoAction();
+    //}
+    //else
+    //{
+    //    wxMessageBox(_("Target path invaild!!"), _("Error"), wxOK | wxICON_ERROR );
+
+    //    m_textCtrl_original->Enable(true);
+    //    m_textCtrl_replace->Enable(true);
+    //    m_button_run->Enable(true);
+    //    m_button_cancel->Enable(true);
+    //}
+}
+
+void ContentReplaceDialog::OnFileProcessSuccess( wxFileProcessEvent& event )
+{
+    m_textCtrl_original->Enable(true);
+    m_textCtrl_replace->Enable(true);
+    m_button_run->Enable(true);
+    m_button_cancel->Enable(true);
+
+    m_staticText_info->SetLabel(_("File process done"));
+}
+
+void ContentReplaceDialog::CloseContentReplaceDialog( wxCommandEvent& event )
+{
+    Close();
+}

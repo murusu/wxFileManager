@@ -9,6 +9,8 @@
 #include <wx/listctrl.h>
 #include <wx/filename.h>
 #include <wx/dir.h>
+#include <wx/filefn.h>
+#include <wx/textfile.h>
 
 #include <wx/event.h>
 
@@ -107,8 +109,10 @@ class ActionInfo
         size_t   m_actionmode;
         size_t   m_duplicatemode;
         wxString m_targetpath;
+        wxString m_originaltext;
+        wxString m_replacetext;
 
-        CopyMoveDialog* m_dialog;
+        wxDialog* m_dialog;
 
         ActionInfo();
         ~ActionInfo();
@@ -184,6 +188,18 @@ class FileCopyMoveThread : public wxThread
 
     public:
         FileCopyMoveThread(FileManager *file_manager);
+
+        void *Entry();
+        void OnExit();
+};
+
+class FileContentReplaceThread : public wxThread
+{
+    protected:
+        FileManager *m_filemanager;
+
+    public:
+        FileContentReplaceThread(FileManager *file_manager);
 
         void *Entry();
         void OnExit();

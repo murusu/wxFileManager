@@ -418,7 +418,7 @@ void *FileCopyMoveThread::Entry()
             }
         }
 
-        action_info->m_dialog->GetGauge()->SetValue(int(((i + 1)*100)/total_num));
+        ((CopyMoveDialog *)(action_info->m_dialog))->GetGauge()->SetValue(int(((i + 1)*100)/total_num));
     }
 
     wxFileProcessEvent event(wxEVT_FILEPROCESS_SUCCESS);
@@ -426,6 +426,166 @@ void *FileCopyMoveThread::Entry()
 
     return NULL;
 }
+
+
+//////////////////////////////////////////////
+FileContentReplaceThread::FileContentReplaceThread(FileManager *file_manager) : wxThread()
+{
+    m_filemanager = file_manager;
+}
+
+void FileContentReplaceThread::OnExit()
+{
+}
+
+void *FileContentReplaceThread::Entry()
+{
+    ActionInfo* action_info = m_filemanager->GetActionInfo();
+
+    FileInfoArray* filelist = m_filemanager->m_filelist;
+    FileListCtrl* listctrl = wxGetApp().GetAppUI()->GetListCtrl();
+
+    size_t total_num = listctrl->GetSelectedItemCount();
+
+    if(total_num < 1)
+    {
+        wxFileProcessEvent event(wxEVT_FILEPROCESS_SUCCESS);
+        action_info->m_dialog->AddPendingEvent(event);
+
+        wxMessageBox(_("No item selected!"), _("Error"), wxOK | wxICON_ERROR );
+        return NULL;
+    }
+
+    wxString sourefile_name;
+
+    wxTextFile  input_file;
+    wxTextFile  output_file;
+    wxString    line_str;
+    //wxString    output_str;
+    //wxString targetfile_name;
+    //size_t contin_flag;
+
+    long item_index = -1;
+    size_t line_num;
+
+
+    for (size_t i = 0; i < total_num; i++)
+    {
+        item_index = listctrl->GetNextItem(item_index, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+
+        FileInfo file_info(filelist->Item(item_index));
+
+        sourefile_name = file_info.m_filepath + wxT("/") + file_info.m_filename;
+
+        input_file.Open(sourefile_name);
+        //output_file.Create(sourefile_name + wxT(".temp"));
+
+        line_num = 0;
+
+        for ( line_str = input_file.GetFirstLine(); !input_file.Eof(); line_str = input_file.GetNextLine() )
+        {
+            if(line_str.Replace(action_info->m_originaltext, action_info->m_replacetext) > 0)
+            {//output_file.AddLine(line_str);
+                input_file.RemoveLine(line_num);
+                input_file.InsertLine(line_str, line_num);
+            }
+
+            line_num++;
+        }
+
+        input_file.Write();
+        input_file.Close();
+
+        //output_file.Write();
+        //output_file.Close();
+        //input_file.Close();
+
+        //wxRemoveFile(sourefile_name);
+        //wxRenameFile(sourefile_name + wxT(".temp"), sourefile_name);
+
+        /*
+        targetfile_name = action_info->m_targetpath + wxT("/") + file_info.m_filename;
+
+        if(action_info->m_actionmode == KEEP_STRUCTURE)
+        {
+            wxString newpath = action_info->m_targetpath + wxT("/") + file_info.m_filepath.Mid(0, 1) + file_info.m_filepath.Mid(2);
+            if (!wxDirExists(newpath)) wxFileName::Mkdir(newpath, 0777, wxPATH_MKDIR_FULL);
+
+            targetfile_name = newpath + wxT("/") + file_info.m_filename;
+        }
+
+        contin_flag = true;
+
+        if(wxFileExists(targetfile_name))
+        {
+            switch(action_info->m_duplicatemode)
+            {
+                case ACTION_ASK:
+                {
+                    wxFileName source(sourefile_name);
+                    wxFileName target(targetfile_name);
+
+                    wxString message;
+                    message = _("Replace ")+ source.GetFullName() + wxT("(") + source.GetHumanReadableSize(source.GetSize(), _("Empty File")) + wxT(")") + _(" with ") + target.GetFullName() + wxT("(") + target.GetHumanReadableSize(target.GetSize(), _("Empty File")) + wxT(") ?");
+
+                    if(wxMessageBox(message, _("Confirm"), wxYES_NO) == wxNO) contin_flag = false;
+                    break;
+                }
+
+                case ACTION_SKIP:
+                    contin_flag = false;
+                    break;
+
+                case ACTION_OVERRIDENEW:
+                {
+                    wxFileName source(sourefile_name);
+                    wxFileName target(targetfile_name);
+                    if(target.GetModificationTime().GetTicks() >= source.GetModificationTime().GetTicks()) contin_flag = false;
+                    break;
+                }
+
+
+                case ACTION_AUTORENAME:
+                {
+                    size_t index = 1;
+                    wxFileName target(targetfile_name);
+                    wxString orgin = target.GetPath() + wxT("/") + target.GetName();
+                    wxString exten = target.GetExt();
+
+                    while(wxFileExists(targetfile_name))
+                    {
+                        targetfile_name = orgin + wxT("(") + wxString::Format(wxT("%d"), index) + wxT(").") + exten;
+                        index++;
+                    }
+                    break;
+                }
+            }
+        }
+
+        if(contin_flag)
+        {
+            switch(action_info->m_actiontype)
+            {
+                case ACTION_COPY:
+                    wxCopyFile(sourefile_name, targetfile_name);
+                    break;
+
+                case ACTION_MOVE:
+                    wxRenameFile(sourefile_name, targetfile_name);
+                    break;
+            }
+        }
+        */
+
+        ((ContentReplaceDialog *)(action_info->m_dialog))->GetGauge()->SetValue(int(((i + 1)*100)/total_num));
+    }
+
+    wxFileProcessEvent event(wxEVT_FILEPROCESS_SUCCESS);
+    action_info->m_dialog->AddPendingEvent(event);
+
+    return NULL;
+}
+//////////////////////////////////////////////
 
 
 FileManager::FileManager()
@@ -576,17 +736,32 @@ void FileManager::DoSearch()
 
 void FileManager::DoAction()
 {
+    FileCopyMoveThread *worker_thread1 = new FileCopyMoveThread(this);
+    FileContentReplaceThread *worker_thread2 = new FileContentReplaceThread(this);
+
+
     switch(m_actioninfo->m_actiontype)
     {
         case ACTION_COPY:
         case ACTION_MOVE:
-            FileCopyMoveThread *worker_thread = new FileCopyMoveThread(this);
-            if ( worker_thread->Create() != wxTHREAD_NO_ERROR )
+
+            if ( worker_thread1->Create() != wxTHREAD_NO_ERROR )
             {
             }
             else
             {
-                worker_thread->Run();
+                worker_thread1->Run();
+            }
+            break;
+
+        case ACTION_REPLACE:
+
+            if ( worker_thread2->Create() != wxTHREAD_NO_ERROR )
+            {
+            }
+            else
+            {
+                worker_thread2->Run();
             }
             break;
     }

@@ -33,6 +33,7 @@ const size_t ACTION_NONE                = 0;
 const size_t ACTION_COPY                = 1;
 const size_t ACTION_MOVE                = 2;
 const size_t ACTION_DELETE              = 3;
+const size_t ACTION_REPLACE             = 4;
 
 const size_t ACTION_ASK                 = 0;
 const size_t ACTION_SKIP                = 1;

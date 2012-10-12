@@ -42,17 +42,18 @@ class FileListCtrl;
 #define wxID_Menu_SaveList 1000
 #define wxID_Menu_LoadList 1001
 #define wxID_Menu_Exit 1002
-#define wxID_Menu_RemoveFile 1003
-#define wxID_Menu_FilterFile 1004
-#define wxID_Menu_ClearList 1005
-#define wxID_Menu_Copy 1006
-#define wxID_Menu_Move 1007
-#define wxID_Menu_Delete 1008
-#define wxID_Menu_Rename 1009
-#define wxID_Menu_OpenFile 1010
-#define wxID_Menu_OpenFolder 1011
-#define wxID_Menu_SearchAll 1012
-#define wxID_Menu_CondSearch 1013
+#define wxID_Menu_SearchAll 1003
+#define wxID_Menu_CondSearch 1004
+#define wxID_Menu_RemoveFile 1005
+#define wxID_Menu_FilterFile 1006
+#define wxID_Menu_ClearList 1007
+#define wxID_Menu_Copy 1008
+#define wxID_Menu_Move 1009
+#define wxID_Menu_Delete 1010
+#define wxID_Menu_Rename 1011
+#define wxID_Menu_Replace 1012
+#define wxID_Menu_OpenFile 1013
+#define wxID_Menu_OpenFolder 1014
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxFileManagerUI_Base
@@ -65,16 +66,17 @@ class wxFileManagerUI_Base : public wxFrame
 		wxStatusBar* m_statusBar;
 		wxMenuBar* m_menubar1;
 		wxMenu* m_menu1;
-		wxMenu* m_menu4;
 		wxMenu* m_menu_search;
+		wxMenu* m_menu4;
 		FileListCtrl* m_listCtrl_filelist;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void ExitProgram( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ClearFileList( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ShowCopyMoveDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void DeleteFiles( wxCommandEvent& event ) { event.Skip(); }
-		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ShowContentReplaceDialog( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnListKeyDown( wxKeyEvent& event ) { event.Skip(); }
 		virtual void SortFileList( wxListEvent& event ) { event.Skip(); }
 		virtual void ShowPopupMenu( wxListEvent& event ) { event.Skip(); }
@@ -162,6 +164,35 @@ class CopyMoveDialog_Base : public wxDialog
 		
 		CopyMoveDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Copy & Move Files"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 490,175 ), long style = wxCAPTION );
 		~CopyMoveDialog_Base();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class ContentReplaceDialog_Base
+///////////////////////////////////////////////////////////////////////////////
+class ContentReplaceDialog_Base : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText7;
+		wxTextCtrl* m_textCtrl_original;
+		wxStaticText* m_staticText6;
+		wxTextCtrl* m_textCtrl_replace;
+		wxGauge* m_gauge;
+		wxStaticText* m_staticText_info;
+		wxButton* m_button_run;
+		wxButton* m_button_cancel;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void DoAction( wxCommandEvent& event ) { event.Skip(); }
+		virtual void CloseContentReplaceDialog( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		ContentReplaceDialog_Base( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Content Replace"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 429,247 ), long style = wxDEFAULT_DIALOG_STYLE );
+		~ContentReplaceDialog_Base();
 	
 };
 
