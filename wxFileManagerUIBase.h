@@ -40,7 +40,7 @@ class FileListCtrl;
 
 #define wxID_Menu_Search 1000
 #define wxID_Menu_StopSearch 1001
-#define wxID_Menu_AddTo List 1002
+#define wxID_Menu_AddToList 1002
 #define wxID_Menu_Exit 1003
 #define wxID_Menu_About 1004
 
@@ -52,7 +52,7 @@ class wxFileManagerUIBase : public wxFrame
 	private:
 	
 	protected:
-		wxStatusBar* m_statusBar2;
+		wxStatusBar* m_statusBar;
 		wxMenuBar* m_menubar;
 		wxMenu* m_menu3;
 		wxMenu* m_menu4;

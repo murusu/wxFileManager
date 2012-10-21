@@ -15,7 +15,7 @@ wxFileManagerUIBase::wxFileManagerUIBase( wxWindow* parent, wxWindowID id, const
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
-	m_statusBar2 = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
+	m_statusBar = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
 	m_menubar = new wxMenuBar( 0 );
 	m_menu3 = new wxMenu();
 	wxMenuItem* m_menuItem_search;
@@ -31,7 +31,7 @@ wxFileManagerUIBase::wxFileManagerUIBase( wxWindow* parent, wxWindowID id, const
 	m_separator2 = m_menu3->AppendSeparator();
 	
 	wxMenuItem* m_menuItem_addtolist;
-	m_menuItem_addtolist = new wxMenuItem( m_menu3, wxID_Menu_AddTo List, wxString( _("Add Files To List") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem_addtolist = new wxMenuItem( m_menu3, wxID_Menu_AddToList, wxString( _("Add Files To List") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem_addtolist );
 	
 	wxMenuItem* m_menuItem9;

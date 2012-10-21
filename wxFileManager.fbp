@@ -129,7 +129,7 @@
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
             </object>
-            <object class="wxMenuBar" expanded="0">
+            <object class="wxMenuBar" expanded="1">
                 <property name="bg"></property>
                 <property name="context_help"></property>
                 <property name="context_menu">1</property>
@@ -178,7 +178,7 @@
                 <event name="OnSetFocus"></event>
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">File</property>
                     <property name="name">m_menu3</property>
                     <property name="permission">protected</property>
@@ -221,7 +221,7 @@
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
-                        <property name="id">wxID_Menu_AddTo List</property>
+                        <property name="id">wxID_Menu_AddToList</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">Add Files To List</property>
                         <property name="name">m_menuItem_addtolist</property>

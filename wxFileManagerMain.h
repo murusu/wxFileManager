@@ -4,6 +4,7 @@
 #include <wx/wx.h>
 
 #include "wxFileManagerUI.h"
+#include "wxFileManagerUIExtend.h"
 
 class wxFileManagerUI;
 
