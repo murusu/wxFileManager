@@ -1,4 +1,4 @@
-#include "wxFileManager_Main.h"
+#include "wxFileManagerMain.h"
 
 IMPLEMENT_APP(wxFileManagerApp)
 
@@ -8,7 +8,7 @@ bool wxFileManagerApp::OnInit(void)
     m_appui  = NULL;
     SetupLocale();
 
-    m_filemanager = new FileManager();
+    //m_filemanager = new FileManager();
 
     m_appui = new wxFileManagerUI(NULL);
     m_appui->Show(true);
@@ -29,14 +29,4 @@ void wxFileManagerApp::SetupLocale()
 
     m_locale->AddCatalogLookupPathPrefix(wxT("./lng"));
     m_locale->AddCatalog(m_locale->GetCanonicalName());
-}
-
-FileManager* wxFileManagerApp::GetFileManager()
-{
-    return m_filemanager;
-}
-
-wxFileManagerUI* wxFileManagerApp::GetAppUI()
-{
-    return m_appui;
 }
