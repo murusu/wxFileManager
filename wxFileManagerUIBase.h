@@ -41,8 +41,10 @@ class FileListCtrl;
 #define wxID_Menu_Search 1000
 #define wxID_Menu_StopSearch 1001
 #define wxID_Menu_AddToList 1002
-#define wxID_Menu_Exit 1003
-#define wxID_Menu_About 1004
+#define wxID_Menu_RemoveFromList 1003
+#define wxID_Menu_ClearList 1004
+#define wxID_Menu_Exit 1005
+#define wxID_Menu_About 1006
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class wxFileManagerUIBase
@@ -59,10 +61,13 @@ class wxFileManagerUIBase : public wxFrame
 		wxMenu* m_menu6;
 		wxMenu* m_menu2;
 		wxMenu* m_menu5;
-		FileListCtrl* m_listCtrl2;
+		FileListCtrl* m_listCtrl_file;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void ShowSearchDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BrowserFilesToAddList( wxCommandEvent& event ) { event.Skip(); }
+		virtual void RemoveFilesFromList( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ClearList( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ExitProgram( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ShowAboutDialog( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -113,10 +118,10 @@ class SearchDialogBase : public wxDialog
 	protected:
 		wxPanel* m_panel_base;
 		wxStaticText* m_staticText19;
-		wxTextCtrl* m_textCtrl4;
+		wxTextCtrl* m_textCtrl_path;
 		wxButton* m_button10;
-		wxCheckBox* m_checkBox31;
-		wxTextCtrl* m_textCtrl5;
+		wxCheckBox* m_checkBox_filenameinclude;
+		wxTextCtrl* m_textCtrl_filenameinclude;
 		wxPanel* m_panel_more;
 		wxCheckBox* m_checkBox_modifydate;
 		wxChoice* m_choice_modifydate;
@@ -141,6 +146,8 @@ class SearchDialogBase : public wxDialog
 		wxButton* m_button13;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void BrowserSearchPath( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFileNameIncludeChange( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeCreateDateStatus( wxCommandEvent& event ) { event.Skip(); }

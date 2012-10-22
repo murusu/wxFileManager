@@ -2,7 +2,11 @@
 #define WXFILEMANAGERMAIN_H_INCLUDED
 
 #include <wx/wx.h>
+#include <wx/dynarray.h>
+#include <wx/arrimpl.cpp>
+#include <wx/arrstr.h>
 
+#include "GlobalValue.h"
 #include "wxFileManagerUI.h"
 #include "wxFileManagerUIExtend.h"
 

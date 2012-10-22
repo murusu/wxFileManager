@@ -85,6 +85,12 @@
 			<Add library="libwsock32.a" />
 			<Add library="libodbc32.a" />
 		</Linker>
+		<Unit filename="GlobalValue.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="wxFileManagerDataList.cpp" />
+		<Unit filename="wxFileManagerDataList.h" />
 		<Unit filename="wxFileManagerMain.cpp" />
 		<Unit filename="wxFileManagerMain.h" />
 		<Unit filename="wxFileManagerUI.cpp" />

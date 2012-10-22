@@ -1,5 +1,12 @@
 #include "wxFileManagerUI.h"
 
+/////////////////////////////////////////////////////////////////
+//
+//
+//
+//
+//
+/////////////////////////////////////////////////////////////////
 void wxFileManagerUI::ShowSearchDialog(wxCommandEvent& event)
 {
     SearchDialog search_dialog(this);
@@ -11,6 +18,8 @@ void wxFileManagerUI::ShowAboutDialog(wxCommandEvent& event)
     AboutDialog about_dialog(this);
     about_dialog.ShowModal();
 }
+
+
 
 
 /////////////////////////////////////////////////////////////////
