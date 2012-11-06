@@ -19,7 +19,7 @@ class FileInfo
         wxString        m_tag;
         size_t          m_result;
 
-        FileInfo(const wxString& name, const wxString& path, wxULongLong size, time_t modifytime, time_t createtime, size_t type, const wxString& tag, size_t result);
+        FileInfo(const wxString& name, const wxString& path, size_t type = FILETYPE_UNKNOWN, wxULongLong size = 0, time_t modifytime = 0, time_t createtime = 0, const wxString& tag = wxT(""), size_t result = FILERESULT_UNPROCESS);
         ~FileInfo(){};
 };
 

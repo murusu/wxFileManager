@@ -197,7 +197,7 @@
                         <event name="OnMenuSelection">ShowSearchDialog</event>
                         <event name="OnUpdateUI"></event>
                     </object>
-                    <object class="wxMenuItem" expanded="1">
+                    <object class="wxMenuItem" expanded="0">
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">0</property>
@@ -287,7 +287,7 @@
                         <property name="help"></property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
-                        <property name="label">Load LIst</property>
+                        <property name="label">Load List</property>
                         <property name="name">m_menuItem12</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
@@ -315,7 +315,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="1">
+                <object class="wxMenu" expanded="0">
                     <property name="label">Operation</property>
                     <property name="name">m_menu4</property>
                     <property name="permission">protected</property>
@@ -494,7 +494,7 @@
                         <property name="context_menu">1</property>
                         <property name="enabled">1</property>
                         <property name="fg"></property>
-                        <property name="font"></property>
+                        <property name="font">,90,90,10,70,0</property>
                         <property name="hidden">0</property>
                         <property name="id">wxID_ANY</property>
                         <property name="maximum_size"></property>
@@ -554,7 +554,7 @@
                         <event name="OnRightDown"></event>
                         <event name="OnRightUp"></event>
                         <event name="OnSetFocus"></event>
-                        <event name="OnSize"></event>
+                        <event name="OnSize">OnFileListSizeChange</event>
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
@@ -1508,11 +1508,11 @@
                                     </object>
                                 </object>
                             </object>
-                            <object class="sizeritem" expanded="0">
+                            <object class="sizeritem" expanded="1">
                                 <property name="border">5</property>
                                 <property name="flag">wxEXPAND</property>
                                 <property name="proportion">0</property>
-                                <object class="wxBoxSizer" expanded="0">
+                                <object class="wxBoxSizer" expanded="1">
                                     <property name="minimum_size"></property>
                                     <property name="name">bSizer55</property>
                                     <property name="orient">wxHORIZONTAL</property>
@@ -1549,7 +1549,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox">OnFileNameIncludeChange</event>
+                                            <event name="OnCheckBox">ChangeFileNameInclude</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
@@ -1929,11 +1929,11 @@
                                     </object>
                                 </object>
                             </object>
-                            <object class="sizeritem" expanded="1">
+                            <object class="sizeritem" expanded="0">
                                 <property name="border">5</property>
                                 <property name="flag">wxEXPAND</property>
                                 <property name="proportion">0</property>
-                                <object class="wxBoxSizer" expanded="1">
+                                <object class="wxBoxSizer" expanded="0">
                                     <property name="minimum_size"></property>
                                     <property name="name">bSizer16</property>
                                     <property name="orient">wxHORIZONTAL</property>
@@ -2441,7 +2441,7 @@
                                             <property name="label">Search Files</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_checkBox29</property>
+                                            <property name="name">m_checkBox_searchfile</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -2498,7 +2498,7 @@
                                             <property name="label">Search Diretory</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_checkBox30</property>
+                                            <property name="name">m_checkBox_searchdiretory</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -2566,7 +2566,7 @@
                                             <property name="label">Search File Text</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_checkBox28</property>
+                                            <property name="name">m_checkBox_searchtext</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size">150,-1</property>
@@ -2581,7 +2581,7 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnChar"></event>
-                                            <event name="OnCheckBox"></event>
+                                            <event name="OnCheckBox">ChangeSearchTextStatus</event>
                                             <event name="OnEnterWindow"></event>
                                             <event name="OnEraseBackground"></event>
                                             <event name="OnKeyDown"></event>
@@ -2622,7 +2622,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_textCtrl6</property>
+                                            <property name="name">m_textCtrl_searchtext</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size">300,50</property>
@@ -2671,11 +2671,11 @@
                         </object>
                     </object>
                 </object>
-                <object class="sizeritem" expanded="0">
+                <object class="sizeritem" expanded="1">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND | wxALL</property>
                     <property name="proportion">0</property>
-                    <object class="wxPanel" expanded="0">
+                    <object class="wxPanel" expanded="1">
                         <property name="bg"></property>
                         <property name="context_help"></property>
                         <property name="context_menu">1</property>
@@ -2722,7 +2722,7 @@
                         <event name="OnSetFocus"></event>
                         <event name="OnSize"></event>
                         <event name="OnUpdateUI"></event>
-                        <object class="wxBoxSizer" expanded="0">
+                        <object class="wxBoxSizer" expanded="1">
                             <property name="minimum_size">-1,-1</property>
                             <property name="name">bSizer56</property>
                             <property name="orient">wxHORIZONTAL</property>
@@ -2734,14 +2734,14 @@
                                 <object class="spacer" expanded="0">
                                     <property name="height">0</property>
                                     <property name="permission">protected</property>
-                                    <property name="width">170</property>
+                                    <property name="width">110</property>
                                 </object>
                             </object>
-                            <object class="sizeritem" expanded="0">
+                            <object class="sizeritem" expanded="1">
                                 <property name="border">5</property>
                                 <property name="flag"></property>
                                 <property name="proportion">0</property>
-                                <object class="wxBoxSizer" expanded="0">
+                                <object class="wxBoxSizer" expanded="1">
                                     <property name="minimum_size">-1,-1</property>
                                     <property name="name">bSizer57</property>
                                     <property name="orient">wxHORIZONTAL</property>
@@ -2760,13 +2760,13 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">More Option</property>
+                                            <property name="label">Show Advanced Option</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_button11</property>
+                                            <property name="name">m_button_advbutton</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
-                                            <property name="size">90,-1</property>
+                                            <property name="size">150,-1</property>
                                             <property name="style"></property>
                                             <property name="subclass"></property>
                                             <property name="tooltip"></property>

@@ -2,7 +2,7 @@
 
 WX_DEFINE_OBJARRAY(FileInfoArray);
 
-FileInfo::FileInfo(const wxString& name, const wxString& path, wxULongLong size = 0, time_t modifytime = 0, time_t createtime = 0, size_t type = FILETYPE_UNKNOWN, const wxString& tag = wxT(""), size_t result = FILERESULT_UNPROCESS)
+FileInfo::FileInfo(const wxString& name, const wxString& path, size_t type, wxULongLong size, time_t modifytime, time_t createtime, const wxString& tag, size_t result)
 {
     m_name          = name;
     m_path          = path;
@@ -13,8 +13,6 @@ FileInfo::FileInfo(const wxString& name, const wxString& path, wxULongLong size 
     m_tag           = tag;
     m_result        = result;
 }
-
-
 
 
 /////////////////////////////////////////////////////////////////

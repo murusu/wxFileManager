@@ -53,7 +53,7 @@ wxFileManagerUIBase::wxFileManagerUIBase( wxWindow* parent, wxWindowID id, const
 	m_menuItem11->Enable( false );
 	
 	wxMenuItem* m_menuItem12;
-	m_menuItem12 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Load LIst") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem12 = new wxMenuItem( m_menu3, wxID_ANY, wxString( _("Load List") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu3->Append( m_menuItem12 );
 	
 	wxMenuItem* m_separator4;
@@ -132,6 +132,8 @@ wxFileManagerUIBase::wxFileManagerUIBase( wxWindow* parent, wxWindowID id, const
 	bSizer78 = new wxBoxSizer( wxVERTICAL );
 	
 	m_listCtrl_file = new FileListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_VIRTUAL|wxLC_VRULES );
+	m_listCtrl_file->SetFont( wxFont( 10, 70, 90, 90, false, wxEmptyString ) );
+	
 	bSizer78->Add( m_listCtrl_file, 0, wxALL|wxEXPAND, 0 );
 	
 	this->SetSizer( bSizer78 );
@@ -146,6 +148,7 @@ wxFileManagerUIBase::wxFileManagerUIBase( wxWindow* parent, wxWindowID id, const
 	this->Connect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ClearList ) );
 	this->Connect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ExitProgram ) );
 	this->Connect( wxID_Menu_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ShowAboutDialog ) );
+	m_listCtrl_file->Connect( wxEVT_SIZE, wxSizeEventHandler( wxFileManagerUIBase::OnFileListSizeChange ), NULL, this );
 }
 
 wxFileManagerUIBase::~wxFileManagerUIBase()
@@ -157,6 +160,7 @@ wxFileManagerUIBase::~wxFileManagerUIBase()
 	this->Disconnect( wxID_Menu_ClearList, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ClearList ) );
 	this->Disconnect( wxID_Menu_Exit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ExitProgram ) );
 	this->Disconnect( wxID_Menu_About, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( wxFileManagerUIBase::ShowAboutDialog ) );
+	m_listCtrl_file->Disconnect( wxEVT_SIZE, wxSizeEventHandler( wxFileManagerUIBase::OnFileListSizeChange ), NULL, this );
 	
 }
 
@@ -404,25 +408,25 @@ SearchDialogBase::SearchDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxBoxSizer* bSizer77;
 	bSizer77 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_checkBox29 = new wxCheckBox( m_panel_more, wxID_ANY, _("Search Files"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_checkBox29->SetValue(true); 
-	bSizer77->Add( m_checkBox29, 0, wxALL, 5 );
+	m_checkBox_searchfile = new wxCheckBox( m_panel_more, wxID_ANY, _("Search Files"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox_searchfile->SetValue(true); 
+	bSizer77->Add( m_checkBox_searchfile, 0, wxALL, 5 );
 	
-	m_checkBox30 = new wxCheckBox( m_panel_more, wxID_ANY, _("Search Diretory"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer77->Add( m_checkBox30, 0, wxALL, 5 );
+	m_checkBox_searchdiretory = new wxCheckBox( m_panel_more, wxID_ANY, _("Search Diretory"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer77->Add( m_checkBox_searchdiretory, 0, wxALL, 5 );
 	
 	bSizer63->Add( bSizer77, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer76;
 	bSizer76 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_checkBox28 = new wxCheckBox( m_panel_more, wxID_ANY, _("Search File Text"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
-	bSizer76->Add( m_checkBox28, 0, wxALL, 5 );
+	m_checkBox_searchtext = new wxCheckBox( m_panel_more, wxID_ANY, _("Search File Text"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	bSizer76->Add( m_checkBox_searchtext, 0, wxALL, 5 );
 	
-	m_textCtrl6 = new wxTextCtrl( m_panel_more, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,50 ), wxTE_MULTILINE|wxTE_RICH2 );
-	m_textCtrl6->Enable( false );
+	m_textCtrl_searchtext = new wxTextCtrl( m_panel_more, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,50 ), wxTE_MULTILINE|wxTE_RICH2 );
+	m_textCtrl_searchtext->Enable( false );
 	
-	bSizer76->Add( m_textCtrl6, 0, wxALL, 5 );
+	bSizer76->Add( m_textCtrl_searchtext, 0, wxALL, 5 );
 	
 	bSizer63->Add( bSizer76, 0, wxEXPAND, 5 );
 	
@@ -436,13 +440,13 @@ SearchDialogBase::SearchDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	bSizer56 = new wxBoxSizer( wxHORIZONTAL );
 	
 	
-	bSizer56->Add( 170, 0, 0, 0, 5 );
+	bSizer56->Add( 110, 0, 0, 0, 5 );
 	
 	wxBoxSizer* bSizer57;
 	bSizer57 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_button11 = new wxButton( m_panel_button, wxID_ANY, _("More Option"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
-	bSizer57->Add( m_button11, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	m_button_advbutton = new wxButton( m_panel_button, wxID_ANY, _("Show Advanced Option"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	bSizer57->Add( m_button_advbutton, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_button12 = new wxButton( m_panel_button, wxID_ANY, _("Search"), wxDefaultPosition, wxSize( 90,-1 ), 0 );
 	bSizer57->Add( m_button12, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
@@ -465,13 +469,14 @@ SearchDialogBase::SearchDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	
 	// Connect Events
 	m_button10->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::BrowserSearchPath ), NULL, this );
-	m_checkBox_filenameinclude->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::OnFileNameIncludeChange ), NULL, this );
+	m_checkBox_filenameinclude->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeFileNameInclude ), NULL, this );
 	m_checkBox_modifydate->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeModifyDateStatus ), NULL, this );
 	m_choice_modifydate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialogBase::ChangeModifyDateType ), NULL, this );
 	m_checkBox_createdate->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeCreateDateStatus ), NULL, this );
 	m_choice_createdate->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialogBase::ChangeCreateDateType ), NULL, this );
 	m_checkBox_includesub->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeSubDirStatus ), NULL, this );
-	m_button11->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeOptionType ), NULL, this );
+	m_checkBox_searchtext->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeSearchTextStatus ), NULL, this );
+	m_button_advbutton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeOptionType ), NULL, this );
 	m_button13->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::CloseDialog ), NULL, this );
 }
 
@@ -479,13 +484,14 @@ SearchDialogBase::~SearchDialogBase()
 {
 	// Disconnect Events
 	m_button10->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::BrowserSearchPath ), NULL, this );
-	m_checkBox_filenameinclude->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::OnFileNameIncludeChange ), NULL, this );
+	m_checkBox_filenameinclude->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeFileNameInclude ), NULL, this );
 	m_checkBox_modifydate->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeModifyDateStatus ), NULL, this );
 	m_choice_modifydate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialogBase::ChangeModifyDateType ), NULL, this );
 	m_checkBox_createdate->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeCreateDateStatus ), NULL, this );
 	m_choice_createdate->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SearchDialogBase::ChangeCreateDateType ), NULL, this );
 	m_checkBox_includesub->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeSubDirStatus ), NULL, this );
-	m_button11->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeOptionType ), NULL, this );
+	m_checkBox_searchtext->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeSearchTextStatus ), NULL, this );
+	m_button_advbutton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::ChangeOptionType ), NULL, this );
 	m_button13->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SearchDialogBase::CloseDialog ), NULL, this );
 	
 }

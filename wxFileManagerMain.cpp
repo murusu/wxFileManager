@@ -8,7 +8,7 @@ bool wxFileManagerApp::OnInit(void)
     m_appui  = NULL;
     SetupLocale();
 
-    //m_filemanager = new FileManager();
+    m_filemanager = new FileManager();
 
     m_appui = new wxFileManagerUI(NULL);
     m_appui->Show(true);
@@ -19,6 +19,7 @@ bool wxFileManagerApp::OnInit(void)
 int wxFileManagerApp::OnExit()
 {
     if(m_locale)    delete m_locale;
+    if(m_filemanager) delete m_filemanager;
     return 0;
 }
 

@@ -70,6 +70,7 @@ class wxFileManagerUIBase : public wxFrame
 		virtual void ClearList( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ExitProgram( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ShowAboutDialog( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFileListSizeChange( wxSizeEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -135,24 +136,25 @@ class SearchDialogBase : public wxDialog
 		wxStaticText* m_staticText5;
 		wxSpinCtrl* m_spinCtrl_depth;
 		wxCheckBox* m_checkBox_includehide;
-		wxCheckBox* m_checkBox29;
-		wxCheckBox* m_checkBox30;
-		wxCheckBox* m_checkBox28;
-		wxTextCtrl* m_textCtrl6;
+		wxCheckBox* m_checkBox_searchfile;
+		wxCheckBox* m_checkBox_searchdiretory;
+		wxCheckBox* m_checkBox_searchtext;
+		wxTextCtrl* m_textCtrl_searchtext;
 		wxPanel* m_panel_button;
 		
-		wxButton* m_button11;
+		wxButton* m_button_advbutton;
 		wxButton* m_button12;
 		wxButton* m_button13;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void BrowserSearchPath( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnFileNameIncludeChange( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChangeFileNameInclude( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeModifyDateType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeCreateDateStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeCreateDateType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeSubDirStatus( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChangeSearchTextStatus( wxCommandEvent& event ) { event.Skip(); }
 		virtual void ChangeOptionType( wxCommandEvent& event ) { event.Skip(); }
 		virtual void CloseDialog( wxCommandEvent& event ) { event.Skip(); }
 		
